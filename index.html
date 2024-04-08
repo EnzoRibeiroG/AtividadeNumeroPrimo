@@ -1,90 +1,99 @@
 <!DOCTYPE html>
 <!--
-Nome: Carlos Henrique Cintra alves         Turma: 3b
-Nome: Enzo Ribeiro Gil                     Turma: 3b
-Nome: Guilherme Luiz Cornita               Turma: 3b
-Nome: Munir Ahamad Rebouças El Jarouche    Turma: 3b
-Nome: Otavio da silva sousa filho          Turma: 3b
-Nome: Rodrigo Stefano Alves                Turma: 3b -->
-<html lang="pt-BR">
-   <head>
-       <title>Primo V1</title>       
-       <meta charset="UTF-8">         
-       <script>
-           function recebenNumero(){
-               var canvas = document.getElementById('meuCanvas');
-               if (canvas.getContext){
-                   var cntxt = canvas.getContext('2d');
-                   var maxWidth = 300;
-                   var lineHeight = 35;
-                   var x = (canvas.width - maxWidth) / 2;
-                   var y = 60;
-                  
-                   var N1 = parseInt(document.getElementById("Numero1").value, 10);
+Nome: Carlos Henrique Cintra alves         Turma: 3b    N°4
+Nome: Enzo Ribeiro Gil                     Turma: 3b    N°7
+Nome: Guilherme Luiz Cornita               Turma: 3b    N°11
+Nome: Munir Ahamad Rebouças El Jarouche    Turma: 3b    N°23
+Nome: Otavio da silva sousa filho          Turma: 3b    N°25
+Nome: Rodrigo Stefano Alves                Turma: 3b    N°27 -->
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listador primos</title>
+   
+</head>
+
+<body>
+  
+        <label style="font-size: 20px;">digite um numero natural</label>
+        <input type="text" id="Numero1" autofocus><br>
+        <button onclick="listar()">Listar</button> <br><br>
+        <canvas id="meuCanvas" width="400" height="400"style="border:1px solid #000000; background-color: white;"></canvas>
+    
+
+    <script>
+        var canvas = document.getElementById("meuCanvas");
+        var ctx = canvas.getContext('2d');
+   
+
+
+        function listar() {
+
+            var quantidadeprimo = parseInt(document.getElementById("Numero1").value, 10);  
+
+            var lista = listarPrimos(quantidadeprimo);
+
+            mostrarprimos(lista);   
+        }
+        
+        
+        function listarPrimos(quantidadeprimo) {
+            let qntnumeros = 1;
+            let listaarray = [2];
+            for (cont = 3; qntnumeros < quantidadeprimo; cont += 2) {
+                if (verificaprimo(cont)) {
                  
-                   cntxt.fillStyle = "rgb(255, 255, 255)";
-                   cntxt.fillRect (0, 0, canvas.width, canvas.height);                   
-                   cntxt.font="30px Comic Sans MS";
-                   cntxt.fillStyle = "purple";
-                   primo(cntxt, N1, x, y);
-               }
-           }
-          
-           function primo(cntxt, N1, x, y){
-              
-               let cont = 3
-               let line = N1 + " ";
-               let resposta = "é primo!"
+                    listaarray.push(cont);
+                    qntnumeros++;
+                }
+            }
+            return listaarray;
+        }
+        
+        function verificaprimo(N1) {
+            let contador = 3;
+            if (N1 < 2 || (N1 % 2 == 0 && N1 != 2)) {
+                return false;
+            }
+             else {
+                while (contador <= Math.sqrt(N1)) {
+                    if (N1 % contador == 0) {
+                        return false;
+                    }
+                    contador = contador + 2;
+                }
+            }
+            return true;
+        }
 
 
-               if(parseInt(N1) < 2 || (parseInt(N1)%2 == 0 && parseInt(N1) !=2)){
-                   resposta = "não é primo"
-               }
-               else{
-                   while (cont <= parseInt(N1)/2){
-                       if(parseInt(N1)%cont == 0){
-                           resposta = "não é primo"
-
-
-                           break
-                       }
-                       cont  += 2;
-                   }
-               }
-              
-          
-           line = line + resposta
-           console.log(line);
-           cntxt.fillText(line, x, y);
-
-
-           cntxt.strokeText(line, x, y);
-
-
-           document.getElementById("Numero1").value = "";
-              
-               document.getElementById("Numero1").focus();
-             }
+           function mostrarprimos(lista) {
+            ctx.clearRect(0, 0, 400, 400); 
+            let x = 0;         
+            let N1 = parseInt(document.getElementById("Numero1").value, 10);  
+            let y = 40;
+            ctx.font = "30px Arial";
             
+                
+        
+            for (let item = 0; item < lista.length; item++) {
+                let primo = lista[item].toString().concat(", "); 
+                let tamanho = ctx.measureText(primo).width; 
+                if (x + tamanho > 400) {
+                    y += 40;
+                    x = 0;
+                }
+        
+                ctx.fillText(primo, x, y);
+                x += tamanho;
+                console.log(primo);
 
+            }
+        }
+        </script>
+        
+</body>
 
-
-
-
-
-
-
-      
-       </script>
-   </head>
-   <body>
-       <div>
-           <label style="font-size: 20px;">Digite um numero natural</label>
-           <input type="text" id="Numero1" autofocus><br>
-
-
-           <button onclick="recebenNumero()">primo?</button><br><br>
-           <canvas id="meuCanvas" width="400" height="400" style="border:1px solid #000000; background-color: white;"></canvas>
-       </div>
-   </body>
 </html>
